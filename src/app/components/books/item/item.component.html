@@ -1,0 +1,74 @@
+<article *ngIf="book">
+  
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img [src]="book.cover" class="w-100" alt="{{ book.title }}" *ngIf="book.cover">
+        <img src="https://via.placeholder.com/240x320.png?text=No+image" class="w-100" alt="{{ book.title }}" *ngIf="!book.cover">
+      </div>
+
+      <div class="col-md-8">
+        <div class="card-body">
+          <h1>
+            {{ book.title }}
+            <span *ngIf="book.index" class="fs-6"><i>(Tome {{ book.index }})</i></span>
+          </h1>
+          <h2 class="fs-4 text-secondary">{{ book.author }}</h2>
+          <h3 class="fs-5">{{ book.category }}</h3>
+          <p class="fs-6">
+            <strong>État : </strong>
+            <span *ngFor="let star of stars">
+              <i class="bi bi-{{ star }}"></i>
+            </span>
+
+            <small class="ms-2">({{ book.state }} / 10)</small>
+          </p>
+
+          <ul class="fst-italic">
+            <li *ngIf="book.editor">Édité chez : <span class="text-muted">{{ book.editor }}</span></li>
+            <li *ngIf="book.publishDate">Date de sortie : <span class="text-muted">{{ book.publishDate }}</span></li>
+            <li *ngIf="book.isbn">Code ISBN : <span class="text-muted">{{ book.isbn }}</span></li>
+            <li *ngIf="book.barcode">Code-barres: <span class="text-muted">{{ book.barcode }}</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="card-footer text-end px-2">
+          <button (click)="onEditBook(book)" class="btn btn-secondary py-1 me-2">
+            <i class="bi bi-pen"></i>
+          </button>
+          <button data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-secondary py-1">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Supprimer <strong>"{{ book.title | uppercase }}"</strong> ?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Vous êtes sur le point de supprimer définitivement cet ouvrage. Cette opération est irreversible.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onDeleteBook(book)">Confirmer</button>
+        </div>
+      </div>
+    </div>
+</div>
+</article>
+
+<section *ngIf="!book">
+  <p>Aucun livre ne correspond à cette recherche</p>
+</section>
+
+<a routerLink="/books" class="btn btn-primary mt-3">Retour à la liste</a>

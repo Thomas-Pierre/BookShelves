@@ -1,0 +1,49 @@
+<div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMessage">
+  <i class="bi bi-exclamation-triangle-fill fs-3 me-2"></i> <strong>Une erreur s'est produite :</strong>
+  <div class="fst-italic">{{ errorMessage }}</div>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="alert alert-info alert-dismissible fade show" role="alert" *ngIf="redirectFromAuthGard">
+  <i class="bi bi-exclamation-triangle-fill fs-3 me-2"></i> <strong>Accès interdit :</strong>
+  <div class="fst-italic">Vous devez être connecté pour accéder à cette partie du site.</div>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+
+<div class="row">
+  <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+    <h2>Connexion</h2>
+    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group mt-3">
+        <label class="mb-2" for="email">Votre adresse email: *</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-at"></i></span>
+          <input type="text" class="form-control" id="email" formControlName="email">
+        </div>
+      </div>
+
+      <div class="form-group mt-3">
+        <label class="mb-2" for="password">Votre mot de passe: *</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock"></i></span>
+          <input type="password" class="form-control" id="password" formControlName="password" placeholder="6 caractères minimum">
+        </div>
+      </div>
+
+      <small class="d-block mt-3 text-end">
+        <i>Les champs marqués d'un (*) sont requis</i>
+      </small>
+
+      
+      <div class="d-grid gap-2 col-sm-6 mx-auto mt-5">
+        <button type="submit" class="btn btn-primary" [disabled]="signInForm.invalid">Connexion à mon compte</button>
+
+        <a routerLink="/auth/signup" class="btn btn-secondary">Créer un compte</a>
+      </div>
+
+
+    </form>
+  </div>
+</div>

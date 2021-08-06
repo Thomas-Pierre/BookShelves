@@ -1,0 +1,62 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+  
+      <a class="navbar-brand" routerLink="">
+        BookShelves
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav navbar-right mb-2 mb-lg-0 ms-auto me-3">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              routerLink="books"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbar"
+            >
+              <i class="bi bi-book me-1"></i> Mes objets
+            </a>
+          </li>
+  
+          <li class="nav-item" *ngIf="!user">
+            <a
+              class="nav-link"
+              routerLinkActive="active"
+              routerLink="auth/signin"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbar"
+            >
+              <i class="bi bi-person me-1"></i> Connexion
+            </a>
+          </li>
+  
+          <li class="nav-item" *ngIf="user">
+            <a
+              class="nav-link"
+              (click)="onSignOut()"
+              style="cursor: pointer"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbar"
+            >
+            <i class="bi bi-box-arrow-left me-1"></i> Déconnexion
+            </a>
+          </li>
+        </ul>
+        
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" aria-label="Search">
+          <button class="btn btn-outline-light btn-block" type="submit" data-bs-toggle="collapse"
+          data-bs-target="#navbar">
+            <i class="bi bi-search"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</header>

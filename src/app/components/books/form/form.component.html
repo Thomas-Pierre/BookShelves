@@ -1,0 +1,195 @@
+<div class="row">
+  <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+    <h2>Ajouter un objet à ma collection</h2>
+
+    <form [formGroup]="bookForm" (ngSubmit)="onSaveBook()">
+
+      <input type="hidden" class="form-control" formControlName="id">
+
+      <div class="row">
+
+        <div class="col-10 mt-3 form-group">
+          <label for="title">Titre*</label>
+          <input type="text" class="form-control" id="title" formControlName="title">
+        </div>
+
+        <div class="col-2 mt-3 form-group">
+          <label for="index">
+            Tome
+            <sup class="text-primary" data-bs-toggle="modal" data-bs-target="#indexModal">
+              <i class="bi bi-question-circle"></i>
+            </sup>
+          </label>
+          <input type="number" class="form-control" id="index" formControlName="index">
+        </div>
+        
+
+        <div class="col-sm-6 mt-3 form-group">
+          <label for="author">Auteur*</label>
+          <input type="text" class="form-control" id="author" formControlName="author">
+        </div>
+        
+
+        <div class="col-sm-6 mt-3 form-group">
+          <label for="editor">Éditeur*</label>
+          <input type="text" class="form-control" id="editor" formControlName="editor">
+        </div>
+        
+
+        <div class="col-sm-6 mt-3 form-group">
+          <label for="category">Catégorie*</label>
+          <select class="form-control" id="category" formControlName="category">
+            <optgroup label="{{ group.type }}" *ngFor="let group of categories">
+              <option [value]="category" *ngFor="let category of group.categories;">
+                {{ category }}
+              </option>
+            </optgroup>
+          </select>
+        </div>
+        
+
+        <div class="col-sm-6 mt-3 form-group">
+          <label for="publishDate">Date de publication*</label>
+          <input type="date" class="form-control" id="publishDate" formControlName="publishDate">
+        </div>
+        
+
+        <div class="col-sm-12 mt-3 form-group">
+          <label for="state" class="d-block">
+            État* : 
+              <span class="float-end">
+                <i class="text-danger" *ngIf="state && state <= 3">{{ state || 5 }}/10</i>
+                <i class="text-warning" *ngIf="!state || (state > 3 && state <= 7)">{{ state || 5 }}/10</i>
+                <i class="text-success" *ngIf="state && state > 7">{{ state || 5 }}/10</i>
+              </span>
+          </label>
+          <input type="range" class="form-range" min="1" max="10" id="state" [(ngModel)]="state" formControlName="state">
+        </div>
+        
+
+        <div class="col-sm-12 mt-3 form-group">
+          <label for="cover">Ajouter une image de couverture</label>
+          <div class="input-group">
+            <input type="file" class="form-control" formControlName="cover" (change)="detectFiles($event)" accept="image/*">
+            <span class="input-group-text" *ngIf="fileUrl">
+              <img [src]="fileUrl" class="img-fluid" style="max-height: 1.5em;">
+            </span>
+          </div>
+
+
+          <div class="alert alert-info mt-3 py-2" *ngIf="fileUploading">Chargement en cours</div>
+          <div class="alert alert-success mt-3 py-2" *ngIf="fileUploaded">Fichier chargé</div>
+        </div>
+        
+
+        <div class="col-sm-6 mt-3 form-group">
+          <label for="isbn">
+            Code ISBN
+            <sup class="text-primary" data-bs-toggle="modal" data-bs-target="#isbnModal">
+              <i class="bi bi-question-circle"></i>
+            </sup>
+          </label>
+          <input type="text" class="form-control" id="isbn" formControlName="isbn">
+        </div>
+        
+
+        <div class="col-sm-6 mt-3 form-group">
+          <label for="barcode">
+            Code barre
+            <sup class="text-primary" data-bs-toggle="modal" data-bs-target="#barcodeModal">
+              <i class="bi bi-question-circle"></i>
+            </sup>
+          </label>
+          <input type="text" class="form-control" id="barcode" formControlName="barcode">
+        </div>
+      </div>
+
+      <p class="d-block mt-3 text-end">
+        <i><small>Les champs marqués d'un (*) sont requis</small></i>
+      </p>
+
+      <div class="d-flex justify-content-center mt-5">
+        <button class="mx-2 btn btn-primary" type="submit" [disabled]="bookForm.invalid || fileUploading">
+          Valider
+        </button>
+  
+        <a class="mx-2 btn btn-secondary" routerLink="/books">
+          Retour
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- index Modal -->
+<div class="modal fade" id="indexModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tome</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Entrez le numéro de tome si cet ouvrage fait partie d'une collection
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">J'ai compris</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- isbn Modal -->
+<div class="modal fade" id="isbnModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Code ISNB</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Un ISBN est essentiellement un identifiant de produit utilisé par les éditeurs, libraires, bibliothèques et fournisseurs Internet pour les commandes, le référencement, le suivi des ventes et le contrôle des stocks. L’ISBN identifie l’éditeur ainsi que le titre spécifique, l’édition et le format.
+        </p>
+        <a href="https://www.isbn-international.org/fr/content/qu%E2%80%99est-ce-ce-que-l%E2%80%99isbn" target="_blank">Plus d'infos ici</a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">J'ai compris</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- barcode Modal -->
+<div class="modal fade" id="barcodeModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Le numéro de fabricant/emballeur</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Il est à composer par le fabricant, il se compose de 13 chiffres :
+        </p>
+
+        <ul>
+          <li>Les 2 ou 3 premiers correspondent au pays de provenance du produit.</li>
+          <li>Les 4 ou 5 suivants sont le numéro de membre de l’entreprise participant au système EAN.</li>
+          <li>Les 4 ou 5 suivants sont le numéro d’article du produit.</li>
+          <li>Le dernier chiffre est une clé de contrôle. Calculée à partir des douze premiers chiffres, elle permet de contrôler la validité du code-barres.</li>
+        </ul>
+
+        <a href="https://www.isbn-international.org/fr/content/qu%E2%80%99est-ce-ce-que-l%E2%80%99isbn" target="_blank">Plus d'infos ici</a>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">J'ai compris</button>
+      </div>
+    </div>
+  </div>
+</div>
