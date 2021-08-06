@@ -1,41 +1,41 @@
-<article *ngIf="book">
+<article *ngIf="item">
   
   <div class="card mb-3">
     <div class="row g-0">
       <div class="col-md-4">
-        <img [src]="book.cover" class="w-100" alt="{{ book.title }}" *ngIf="book.cover">
-        <img src="https://via.placeholder.com/240x320.png?text=No+image" class="w-100" alt="{{ book.title }}" *ngIf="!book.cover">
+        <img [src]="item.cover" class="w-100" alt="{{ item.title }}" *ngIf="item.cover">
+        <img src="https://via.placeholder.com/240x320.png?text=No+image" class="w-100" alt="{{ item.title }}" *ngIf="!item.cover">
       </div>
 
       <div class="col-md-8">
         <div class="card-body">
           <h1>
-            {{ book.title }}
-            <span *ngIf="book.index" class="fs-6"><i>(Tome {{ book.index }})</i></span>
+            {{ item.title }}
+            <span *ngIf="item.index" class="fs-6"><i>(Tome {{ item.index }})</i></span>
           </h1>
-          <h2 class="fs-4 text-secondary">{{ book.author }}</h2>
-          <h3 class="fs-5">{{ book.category }}</h3>
+          <h2 class="fs-4 text-secondary">{{ item.author }}</h2>
+          <h3 class="fs-5">{{ item.category }}</h3>
           <p class="fs-6">
             <strong>État : </strong>
             <span *ngFor="let star of stars">
               <i class="bi bi-{{ star }}"></i>
             </span>
 
-            <small class="ms-2">({{ book.state }} / 10)</small>
+            <small class="ms-2">({{ item.state }} / 10)</small>
           </p>
 
           <ul class="fst-italic">
-            <li *ngIf="book.editor">Édité chez : <span class="text-muted">{{ book.editor }}</span></li>
-            <li *ngIf="book.publishDate">Date de sortie : <span class="text-muted">{{ book.publishDate }}</span></li>
-            <li *ngIf="book.isbn">Code ISBN : <span class="text-muted">{{ book.isbn }}</span></li>
-            <li *ngIf="book.barcode">Code-barres: <span class="text-muted">{{ book.barcode }}</span></li>
+            <li *ngIf="item.editor">Édité chez : <span class="text-muted">{{ item.editor }}</span></li>
+            <li *ngIf="item.publishDate">Date de sortie : <span class="text-muted">{{ item.publishDate }}</span></li>
+            <li *ngIf="item.isbn">Code ISBN : <span class="text-muted">{{ item.isbn }}</span></li>
+            <li *ngIf="item.barcode">Code-barres: <span class="text-muted">{{ item.barcode }}</span></li>
           </ul>
         </div>
       </div>
 
       <div class="col-md-12">
         <div class="card-footer text-end px-2">
-          <button (click)="onEditBook(book)" class="btn btn-secondary py-1 me-2">
+          <button (click)="onEditItem(item)" class="btn btn-secondary py-1 me-2">
             <i class="bi bi-pen"></i>
           </button>
           <button data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-secondary py-1">
@@ -52,7 +52,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Supprimer <strong>"{{ book.title | uppercase }}"</strong> ?</h5>
+          <h5 class="modal-title">Supprimer <strong>"{{ item.title | uppercase }}"</strong> ?</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -60,15 +60,15 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onDeleteBook(book)">Confirmer</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="onDeleteItem(item)">Confirmer</button>
         </div>
       </div>
     </div>
 </div>
 </article>
 
-<section *ngIf="!book">
+<section *ngIf="!item">
   <p>Aucun livre ne correspond à cette recherche</p>
 </section>
 
-<a routerLink="/books" class="btn btn-primary mt-3">Retour à la liste</a>
+<a routerLink="/items" class="btn btn-primary mt-3">Retour à la liste</a>

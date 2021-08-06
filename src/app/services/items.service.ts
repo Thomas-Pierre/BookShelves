@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BookModel } from '@/models/Book.model';
+import { ItemModel } from '@/models/Item.model';
 import { Subject } from 'rxjs';
 import firebase from 'firebase';
 
@@ -9,9 +9,9 @@ const __ENV__: string = '/' + appConfig.firebase.environment;
 @Injectable({
   providedIn: 'root'
 })
-export class BookService {
-  books: BookModel[] = [];
-  booksSubject = new Subject<BookModel[]>();
+export class ItemsService {
+  items: ItemModel[] = [];
+  itemsSubject = new Subject<ItemModel[]>();
 
   categories = [
     {
@@ -38,27 +38,27 @@ export class BookService {
 
   constructor() { }
 
-  emitBooks(): void {
-    this.booksSubject.next(this.books);
+  emitItems(): void {
+    this.itemsSubject.next(this.items);
   }
 
-  saveBooks(): void {
-    firebase.database().ref(__ENV__ + '/books').set(this.books);
-    this.emitBooks();
+  saveItems(): void {
+    firebase.database().ref(__ENV__ + '/items').set(this.items);
+    this.emitItems();
   }
 
-  getAllBooks(): void {
-    firebase.database().ref(__ENV__ + '/books').on('value', data => {
-      this.books = data.val() ? data.val() : [];
-      this.emitBooks();
+  getAllItems(): void {
+    firebase.database().ref(__ENV__ + '/items').on('value', data => {
+      this.items = data.val() ? data.val() : [];
+      this.emitItems();
     })
   }
 
-  getBook(id: number): Promise<unknown> {
+  getItem(id: number): Promise<unknown> {
     return new Promise((resolve, reject) => {
       firebase
         .database()
-        .ref(__ENV__ + '/books/' + id)
+        .ref(__ENV__ + '/items/' + id)
         .once('value')
         .then(
           data => resolve(data.val()),
@@ -67,16 +67,15 @@ export class BookService {
     })
   }
 
-  createNewBook(book: BookModel): void {
-    this.books.push(book);
-    this.saveBooks();
+  createNewItem(item: ItemModel): void {
+    this.items.push(item);
+    this.saveItems();
   }
 
-  removeBook(book: BookModel) {
-    const bookToRemoveIndex = this.books.findIndex(b => (b === book));
-
-    this.books.splice(bookToRemoveIndex, 1)
-    this.saveBooks();
+  removeItem(item: ItemModel) {
+    const itemToRemoveIndex = this.items.findIndex(b => (b === item));
+    this.items.splice(itemToRemoveIndex, 1)
+    this.saveItems();
   }
 
   uploadFile(file: File): Promise<unknown> {

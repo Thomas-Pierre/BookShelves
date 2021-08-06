@@ -1,5 +1,5 @@
-import { BookModel } from '@/models/Book.model';
-import { BookService } from '@/services/books.service';
+import { ItemModel } from '@/models/Item.model';
+import { ItemsService } from '@/services/items.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -8,9 +8,9 @@ import { Router } from '@angular/router';
   selector: 'app-form',
   templateUrl: './form.component.html',
 })
-export class BookFormComponent implements OnInit {
+export class ItemsFormComponent implements OnInit {
 
-  bookForm?: FormGroup | any;
+  itemForm?: FormGroup | any;
   fileUrl?: string | unknown;
   fileUploading: boolean = false;
   fileUploaded: boolean = false;
@@ -20,18 +20,18 @@ export class BookFormComponent implements OnInit {
   
   constructor(
     private formBuilder: FormBuilder,
-    private bookService: BookService,
+    private itemsService: ItemsService,
     private router: Router,
 
   ) { }
 
   ngOnInit(): void {
     this.initForm();
-    this.categories = this.bookService.categories;
+    this.categories = this.itemsService.categories;
   }
 
   initForm(): void {
-    this.bookForm = this.formBuilder.group({
+    this.itemForm = this.formBuilder.group({
       id: [Date.now()],
       title: ['', [Validators.required]],
       author: ['', [Validators.required]],
@@ -46,22 +46,22 @@ export class BookFormComponent implements OnInit {
     })
   }
 
-  onSaveBook(): void {
-    const { id, title, author, category, editor, publishDate, state, cover, isbn, barcode, index } = this.bookForm?.value;
-    const newBook = new BookModel(id, title, author, category, editor, publishDate, state, cover, isbn, barcode, index);
+  onSaveItem(): void {
+    const { id, title, author, category, editor, publishDate, state, cover, isbn, barcode, index } = this.itemForm?.value;
+    const newItem = new ItemModel(id, title, author, category, editor, publishDate, state, cover, isbn, barcode, index);
 
     if (this.fileUrl && this.fileUrl !== '') {
-      newBook.cover = this.fileUrl;
+      newItem.cover = this.fileUrl;
     }
 
-    this.bookService.createNewBook(newBook);
-    this.router.navigate(['/books']);
+    this.itemsService.createNewItem(newItem);
+    this.router.navigate(['/items']);
   }
 
 
   onUploadFile(file: File) {
     this.fileUploading = true;
-    this.bookService.uploadFile(file).then(
+    this.itemsService.uploadFile(file).then(
       url => {
         this.fileUrl = url;
         this.fileUploading = false;

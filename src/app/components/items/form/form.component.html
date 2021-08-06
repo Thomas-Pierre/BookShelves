@@ -2,7 +2,7 @@
   <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
     <h2>Ajouter un objet à ma collection</h2>
 
-    <form [formGroup]="bookForm" (ngSubmit)="onSaveBook()">
+    <form [formGroup]="itemForm" (ngSubmit)="onSaveItem()">
 
       <input type="hidden" class="form-control" formControlName="id">
 
@@ -109,11 +109,11 @@
       </p>
 
       <div class="d-flex justify-content-center mt-5">
-        <button class="mx-2 btn btn-primary" type="submit" [disabled]="bookForm.invalid || fileUploading">
+        <button class="mx-2 btn btn-primary" type="submit" [disabled]="itemForm.invalid || fileUploading">
           Valider
         </button>
   
-        <a class="mx-2 btn btn-secondary" routerLink="/books">
+        <a class="mx-2 btn btn-secondary" routerLink="/items">
           Retour
         </a>
       </div>

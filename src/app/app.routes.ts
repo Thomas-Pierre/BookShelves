@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { SignUpComponent } from './components/auth/signup/signup.component';
 import { SignInComponent } from './components/auth/signin/signin.component';
-import { BookListComponent } from './components/books/list/list.component';
-import { BookItemComponent } from './components/books/item/item.component';
-import { BookFormComponent } from './components/books/form/form.component';
+import { ItemsListComponent } from './components/items/list/list.component';
+import { ItemsItemComponent } from './components/items/item/item.component';
+import { ItemsFormComponent } from './components/items/form/form.component';
 import { AuthGardService } from './services/auth-gard.service';
 import { ErrorComponent } from './components/error/error.component';
 import { HomeComponent } from './components/home/home.component';
@@ -18,19 +18,19 @@ export const routes: Routes =  [
     component: SignInComponent
   },
   {
-    path: 'books',
+    path: 'items',
     canActivate: [AuthGardService],
-    component: BookListComponent
+    component: ItemsListComponent
   },
   {
-    path: 'books/new',
+    path: 'items/new',
     canActivate: [AuthGardService],
-    component: BookFormComponent
+    component: ItemsFormComponent
   },
   {
-    path: 'books/details/:id',
+    path: 'items/details/:id',
     canActivate: [AuthGardService],
-    component: BookItemComponent
+    component: ItemsItemComponent
   },
   {
     path: 'not-found', 

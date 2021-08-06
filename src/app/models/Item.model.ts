@@ -1,4 +1,4 @@
-export class BookModel {
+export class ItemModel {
   constructor(
     public id: number,
     public title: string,
